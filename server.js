@@ -1,21 +1,27 @@
 const express = require('express');
+const path = require('path');
 const app = express();
+const nunjucks = require('nunjucks');
 
-app.get('/', function() {
-    res.sendFile(__dirname + '/public/home.html')
-}
-);
+var port = 3000;
 
-app.get('/list', function() {
-    res.sendFile(__dirname + '/public/about.html')
-}
-);
+app.set("view engine", "html");
+nunjucks.configure("./views", {
+    express: app
+})
 
-app.get('/new', function() {
-    res.sendFile(__dirname + '/public/about.html')
-}
-);
+app.get("/", (req,res) =>{
+    res.render("home.html")
+})
 
-app.listen(3000, () => {
-    console.log(`server is running`);
+app.get("/list", (req,res) => {
+    res.render("about.html");
+})
+
+app.get("/new", (req, res) => {
+    res.render("post.html");
+})
+
+app.listen(port, () => {
+    console.log(`server is listening on ${port}`);
 })

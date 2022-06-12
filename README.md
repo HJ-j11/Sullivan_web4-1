@@ -5,8 +5,6 @@
 - CSS
 - JavaScript(jQuery)
 
-<br>
-
 ### 기능
 - 댓글 작성
 - 댓글 조회

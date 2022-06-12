@@ -1,2 +1,14 @@
 # Sullivan_web4
-web4 team for front-end
+<hr/>
+
+### 사용 기술
+- HTML
+- CSS
+- JavaScript(jQuery)
+
+<br>
+
+### 기능
+- 댓글 작성
+- 댓글 조회
+

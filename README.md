@@ -33,8 +33,10 @@
 <img src="/img/List.PNG" width="600px">
 
 ### API 명세서
-|--------|---|------|------------|
+
+사용자 
 |Function|URL|Method|Description|
+|--------|---|------|-----------|
 |홈|/|GET|처음 화면|
 |방명록 리스트|/list|GET|방명록 목록|
 |방명록 작성|/new|GET|방명록 작성 form 이동|

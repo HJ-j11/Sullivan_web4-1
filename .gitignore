@@ -1,1 +1,2 @@
 node_module/
+database/connect/maria.js

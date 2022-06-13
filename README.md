@@ -1,6 +1,6 @@
 # Sullivan_web4 - 프로젝트 유지 보수 중
 
-### 사용 기술
+## 사용 기술
 - 사용 언어 및 프레임워크 : Node.js + Express
 - 데이터 베이스 : Maria DB
 - 템플릿 : Boostrap + nunjucks
@@ -8,9 +8,7 @@
 
 (기존 : Boostrap + jQuery + 제한적 API(https://www.apispreadsheets.com/) 사용) 
 
-### 프로젝트 설명
-
-
+## 프로젝트 설명
 
 #### 목적
 웹 입문자를 위한 기초 웹 콘텐츠 제작물(HTML, CSS, JavaScript) 
@@ -19,13 +17,13 @@
 #### 인원 
 3명 (프론트2, 백엔드 1)
 
-### 기능
+#### 기능
 - 로그인(추가 예정)
 - 댓글 작성
 - 댓글 조회
 - 비밀글/공개글(추가 예정) 
 
-### 화면 
+## 화면 
 - 홈
 <img src="/img/Home.PNG" width="600px">
 
@@ -37,7 +35,7 @@
 
 <br>
 
-### API 명세서
+## API 명세서
 
 사용자 
 |Function|URL|Method|Description|

@@ -3,7 +3,7 @@ const nunjucks = require('nunjucks');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const morgan = require('morgan');
-const {logger} = require('./config/logger');
+const logger = require('./config/logger');
 const session = require('express-session');
 const memoryStore = require('memorystore')(session);
 
@@ -15,6 +15,18 @@ app.use(express.static('public'));
 // bodyParser 이용
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+// logger
+app.use((req, res, next) => {
+    logger.info('로그 출력 test');
+
+    logger.error('error 메시지');
+    logger.warn('warn 메시지');
+    logger.info('info 메시지');
+    logger.http('http 메시지');
+    logger.debug('debug 메시지');
+
+    next();
+})
 
 //session
 app.use(

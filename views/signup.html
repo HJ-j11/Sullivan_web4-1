@@ -30,13 +30,13 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/list">방명록 목록</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/new">방명록 작성</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/login">로그인</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/join">회원 가입</a></li>  
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/signup">회원 가입</a></li>  
                     </ul>
                 </div>
             </div>
         </nav>
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('assets/img/contact-bg.jpg')">
+        <header class="masthead" style="background-image: url('assets/img/join-bg.jpg')">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
@@ -55,25 +55,29 @@
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <p>Please fill below to join our site!</p>
                         <div class="my-5">
-                            <form id="joinForm">
+                            <form id="joinForm" action="/join", method="POST">
                                 <div class="form-floating">
                                     <input class="form-control" id="inputName" name="inputName" type="text" placeholder="Enter your name..." />
                                     <label for="inputName">Name</label>
                                 </div>
                                 <div class="form-floating">
-                                    <input class="form-control" id="inputId" name="inputId" type="email" placeholder="Enter your id..." />
+                                    <input class="form-control" id="inputId" name="inputId" type="text" placeholder="Enter your id..." />
                                     <label for="inputEmail">Id</label>
                                 </div>
                                 <div class="form-floating">
-                                    <input class="form-control" id="inputPassword" name="inputPassword" type="text" placeholder="Enter your password..." />
+                                    <input class="form-control" id="inputPassword" name="inputPassword" type="password" placeholder="Enter your password..." />
                                     <label for="inputPhone">Password</label>
+                                </div>
+                                <div class="form-floating">
+                                    <input class="form-control" id="inputEmail" name="inputEmail" type="email" placeholder="Enter your password..." />
+                                    <label for="inputPhone">Email</label>
                                 </div>
                                 <div class="form-floating">
                                     <input class="form-control" id="inputPhone" name="inputPhone" type="tel" placeholder="Enter your phone number..." />
                                     <label for="inputPhone">Phone Number</label>
                                 </div>
                                 <br />
-                                <button class="btn btn-primary text-uppercase" type="submit">Send</button>
+                                <button class="btn btn-primary text-uppercase" type="submit" form="joinForm">Send</button>
                             </form>
                         </div>
                     </div>

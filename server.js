@@ -16,17 +16,17 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 // logger
-app.use((req, res, next) => {
-    logger.info('로그 출력 test');
+// app.use((req, res, next) => {
+//     logger.info('로그 출력 test');
 
-    logger.error('error 메시지');
-    logger.warn('warn 메시지');
-    logger.info('info 메시지');
-    logger.http('http 메시지');
-    logger.debug('debug 메시지');
+//     logger.error('error 메시지');
+//     logger.warn('warn 메시지');
+//     logger.info('info 메시지');
+//     logger.http('http 메시지');
+//     logger.debug('debug 메시지');
 
-    next();
-})
+//     next();
+// })
 
 //session
 app.use(
@@ -90,8 +90,9 @@ app.post("/login", (req, res) => {
         } else {
             salt = data[0].salt;
             var pwd = data[0].password;
-            const hashPassword = crypto.createHash('sha512').update(password+salt).digest('hex');
-            if(password === hashPassword) {
+            var iterations = data[0].iterate;
+            var hashPassword = crypto.pbkdf2(password, salt, iterations);
+            if(pwd === hashPassword) {
                 res.send('<script>alert("로그인 성공했습니다")</script>');
                 res.redirect('/');        
             } else {
@@ -133,7 +134,9 @@ app.post('/join', (req, res) => {
     var phone = req.body.inputPhone;
     var email = req.body.inputEmail;
     
-    const hashPassword = crypto.createHash('sha512' + salt ).update(password).digest('hex');
+    var salt = crypto.randomBytes(8).toString('hex');
+    var iterations = 1000;
+    var hashPassword = crypto.pbkdf2(password, salt, iterations);
     var checkSql = `SELECT UID FROM USER_TB WHERE UID = ?`;
 
     conn.query(checkSql, [id], function(err, rows) {
@@ -142,8 +145,9 @@ app.post('/join', (req, res) => {
         }
 
         if(rows.length == 0 ) {
-            var sql = `INSERT INTO USER_TB (USER_NAME, UID, PASSWORD, SALT, PHONE, EMAIL, REGDATE) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-            conn.query(sql, [name, id, hashPassword, salt, phone, email, new Date()], function(err, data){
+            
+            var sql = `INSERT INTO USER_TB (USER_NAME, UID, PASSWORD, SALT, ITERATE, PHONE, EMAIL, REGDATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+            conn.query(sql, [name, id, hashPassword, salt, iterate, phone, email, new Date()], function(err, data){
                 if(err) {
                     res.send('<script>alert("join failed!")</script>');
                     throw err;

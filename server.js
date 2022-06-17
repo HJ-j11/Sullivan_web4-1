@@ -114,16 +114,22 @@ app.post('/write', (req, res) => {
     console.log(`session : ${session}`);
 
     console.log(`${user}, ${contents}, ${section}`);
+
+    if(!session) {
+        res.redirect('/login');
+    } else {
+        var sql = `INSERT INTO USER_BOARD (USER_ID, TITLE, CONTENTS, REGDATE) VALUES (?, ?, ?, ?)`;
     
-    var sql = `INSERT INTO USER_BOARD (USER_ID, TITLE, CONTENTS, REGDATE) VALUES (?, ?, ?, ?)`;
+        conn.query(sql, [user, title, contents, new Date()], function(err, data){
+            if(err) {
+                res.send('<script>alert("다시 시도해주세요!")</script>');
+                throw err
+            };
+            res.redirect('/');
+        })
+    }
+
     
-    conn.query(sql, [user, title, contents, new Date()], function(err, data){
-        if(err) {
-            res.send('<script>alert("다시 시도해주세요!")</script>');
-            throw err
-        };
-        res.redirect('/');
-    })
 })
 
 app.post('/join', (req, res) => {

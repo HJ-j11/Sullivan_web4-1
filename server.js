@@ -1,9 +1,8 @@
 const express = require('express');
 const nunjucks = require('nunjucks');
 const bodyParser = require('body-parser');
-const crypto = require('crypto');
-const morgan = require('morgan');
-const {logger} = require('./config/logger');
+const cryption = require('./config/encrpytion');
+const logger = require('./config/logger');
 const session = require('express-session');
 const memoryStore = require('memorystore')(session);
 
@@ -15,6 +14,18 @@ app.use(express.static('public'));
 // bodyParser 이용
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+// logger
+// app.use((req, res, next) => {
+//     logger.info('로그 출력 test');
+
+//     logger.error('error 메시지');
+//     logger.warn('warn 메시지');
+//     logger.info('info 메시지');
+//     logger.http('http 메시지');
+//     logger.debug('debug 메시지');
+
+//     next();
+// })
 
 //session
 app.use(
@@ -69,20 +80,21 @@ app.get("/login", (req,res) => {
 app.post("/login", (req, res) => {
     var userId = req.body.inputId;
     var password = req.body.inputPassword;
-
+    console.log(`userid : ${userId}, pwd: ${password}`);
+    
     conn.query(`SELECT USER_ID, UID, PASSWORD, NAME FROM USER_TB WHERE UID=?`,
     [userId], function(err, data) {
         if(err) throw err;
         if(data.length==0) {
+            console.log('Not Member');
             res.redirect('/');
         } else {
-            salt = data[0].salt;
-            var pwd = data[0].password;
-            const hashPassword = crypto.createHash('sha512').update(password+salt).digest('hex');
-            if(password === hashPassword) {
-                res.send('<script>alert("로그인 성공했습니다")</script>');
+            let decryptedData = cryption.decrypte(data[0].password);
+            if(password === decryptedData) {
+                console.log('login successful');
                 res.redirect('/');        
             } else {
+                console.log('login failed');
                 res.redirect('/login');
             }
         }
@@ -120,8 +132,7 @@ app.post('/join', (req, res) => {
     var password = req.body.inputPassword;
     var phone = req.body.inputPhone;
     var email = req.body.inputEmail;
-    
-    const hashPassword = crypto.createHash('sha512' + salt ).update(password).digest('hex');
+
     var checkSql = `SELECT UID FROM USER_TB WHERE UID = ?`;
 
     conn.query(checkSql, [id], function(err, rows) {
@@ -130,8 +141,10 @@ app.post('/join', (req, res) => {
         }
 
         if(rows.length == 0 ) {
-            var sql = `INSERT INTO USER_TB (USER_NAME, UID, PASSWORD, SALT, PHONE, EMAIL, REGDATE) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-            conn.query(sql, [name, id, hashPassword, salt, phone, email, new Date()], function(err, data){
+            let encryptedData = cryption.encrypte(password);
+
+            var sql = `INSERT INTO USER_TB (USER_NAME, UID, PASSWORD, PHONE, EMAIL, REGDATE) VALUES (?, ?, ?, ?, ?, ?)`;
+            conn.query(sql, [name, id, encryptedData, phone, email, new Date()], function(err, data){
                 if(err) {
                     res.send('<script>alert("join failed!")</script>');
                     throw err;

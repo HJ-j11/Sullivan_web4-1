@@ -51,5 +51,6 @@
 |방명록 작성|/new|GET|방명록 작성 form 이동|
 |방명록 작성|/write|POST|방명록 작성|
 |로그인|/login|GET|로그인 화면 이동|
+|로그인|/login|POST|로그인|
 |회원가입|/signup|GET|회원가입 화면 이동|
 |회원가입|/join|POST|회원가입 양식 작성|

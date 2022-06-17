@@ -1,8 +1,7 @@
 const express = require('express');
 const nunjucks = require('nunjucks');
 const bodyParser = require('body-parser');
-const crypto = require('crypto');
-const morgan = require('morgan');
+const cryption = require('./config/encrpytion');
 const logger = require('./config/logger');
 const session = require('express-session');
 const memoryStore = require('memorystore')(session);
@@ -81,21 +80,21 @@ app.get("/login", (req,res) => {
 app.post("/login", (req, res) => {
     var userId = req.body.inputId;
     var password = req.body.inputPassword;
-
+    console.log(`userid : ${userId}, pwd: ${password}`);
+    
     conn.query(`SELECT USER_ID, UID, PASSWORD, NAME FROM USER_TB WHERE UID=?`,
     [userId], function(err, data) {
         if(err) throw err;
         if(data.length==0) {
+            console.log('Not Member');
             res.redirect('/');
         } else {
-            salt = data[0].salt;
-            var pwd = data[0].password;
-            var iterations = data[0].iterate;
-            var hashPassword = crypto.pbkdf2(password, salt, iterations);
-            if(pwd === hashPassword) {
-                res.send('<script>alert("로그인 성공했습니다")</script>');
+            let decryptedData = cryption.decrypte(data[0].password);
+            if(password === decryptedData) {
+                console.log('login successful');
                 res.redirect('/');        
             } else {
+                console.log('login failed');
                 res.redirect('/login');
             }
         }
@@ -133,10 +132,7 @@ app.post('/join', (req, res) => {
     var password = req.body.inputPassword;
     var phone = req.body.inputPhone;
     var email = req.body.inputEmail;
-    
-    var salt = crypto.randomBytes(8).toString('hex');
-    var iterations = 1000;
-    var hashPassword = crypto.pbkdf2(password, salt, iterations);
+
     var checkSql = `SELECT UID FROM USER_TB WHERE UID = ?`;
 
     conn.query(checkSql, [id], function(err, rows) {
@@ -145,9 +141,10 @@ app.post('/join', (req, res) => {
         }
 
         if(rows.length == 0 ) {
-            
-            var sql = `INSERT INTO USER_TB (USER_NAME, UID, PASSWORD, SALT, ITERATE, PHONE, EMAIL, REGDATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-            conn.query(sql, [name, id, hashPassword, salt, iterate, phone, email, new Date()], function(err, data){
+            let encryptedData = cryption.encrypte(password);
+
+            var sql = `INSERT INTO USER_TB (USER_NAME, UID, PASSWORD, PHONE, EMAIL, REGDATE) VALUES (?, ?, ?, ?, ?, ?)`;
+            conn.query(sql, [name, id, encryptedData, phone, email, new Date()], function(err, data){
                 if(err) {
                     res.send('<script>alert("join failed!")</script>');
                     throw err;

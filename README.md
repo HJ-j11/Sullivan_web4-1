@@ -1,10 +1,10 @@
-# Sullivan_web4 - 프로젝트 유지 보수 중
+# Sullivan_web4 (유지 보수 중)
 
 ## 사용 기술
 - 사용 언어 및 프레임워크 : Node.js + Express
 - 데이터 베이스 : Maria DB
 - 템플릿 : Boostrap + nunjucks
-- 배포 : Firebase(Supabase도 고려 중)
+- 배포 : Firebase (Supabase도 고려 중)
 
 (기존 : Boostrap + jQuery + 제한적 API(https://www.apispreadsheets.com/) 사용) 
 
@@ -15,10 +15,10 @@
 #### 기간
 2021.04 ~ 2021. 08
 #### 인원 
-3명 (프론트2, 백엔드 1)
+3명 (프론트2, 백엔드 1(본인))
 
 #### 기능
-- 로그인(추가 예정)
+- 회원가입(완료)/로그인(진행 중)
 - 댓글 작성
 - 댓글 조회
 - 비밀글/공개글(추가 예정) 

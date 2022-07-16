@@ -102,6 +102,15 @@ app.post("/login", (req, res) => {
 
 })
 
+app.get("/logout", (req, res) => {
+    req.session.destroy( err => {
+        if(err) {
+            return res.status.send("<h1>500 error</h1>");
+        }
+        res.redirect("/");
+    })
+});
+
 
 app.post('/write', (req, res) => {
     var user = req.body.writer;

@@ -52,6 +52,9 @@ const conn = require('./database/connect/maria');
 maria.connect();
 
 // URL
+const indexRouter = require('./routes/index');
+
+
 app.get("/", (req,res) =>{
     res.render("home.html")
 })
@@ -101,6 +104,15 @@ app.post("/login", (req, res) => {
     });
 
 })
+
+app.get("/logout", (req, res) => {
+    req.session.destroy( err => {
+        if(err) {
+            return res.status.send("<h1>500 error</h1>");
+        }
+        res.redirect("/");
+    })
+});
 
 
 app.post('/write', (req, res) => {

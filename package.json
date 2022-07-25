@@ -25,6 +25,7 @@
     "express-generator": "^4.16.1",
     "express-mysql-session": "^2.1.8",
     "express-session": "^1.17.3",
+    "firebase-admin": "^11.0.0",
     "http": "^0.0.1-security",
     "memorystore": "^1.6.7",
     "method-override": "^3.0.0",

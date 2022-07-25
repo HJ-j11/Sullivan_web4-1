@@ -52,6 +52,9 @@ const conn = require('./database/connect/maria');
 maria.connect();
 
 // URL
+const indexRouter = require('./routes/index');
+
+
 app.get("/", (req,res) =>{
     res.render("home.html")
 })
